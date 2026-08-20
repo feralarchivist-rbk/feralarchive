@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>on (feminine) monasticism: an exercise</title>
+  <style>
+    /* Reset & Dark Theme Base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #121212;
+      color: #ffe600;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      padding: 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Top Navigation Bar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    nav span {
+      color: #ffe600;
+      font-weight: 500;
+    }
+
+    .nav-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* 3-Column Grid (Sized to prevent scrolling on laptop viewports) */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      margin: 12px 0;
+    }
+
+    .grid-item {
+      width: 100%;
+      border: 2px solid #ffe600;
+      overflow: hidden;
+      background-color: #000;
+      aspect-ratio: 490 / 265;
+      max-height: 22vh; /* Constrains height on desktop so footer stays above fold */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Bottom Section: Text & Action Buttons */
+    .content-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      margin-top: auto;
+      padding-bottom: 8px;
+    }
+
+    .statement {
+      max-width: 620px;
+      font-size: 13px;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      border: 1px solid #ffe600;
+      color: #ffe600;
+      background: transparent;
+      padding: 8px 18px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: background 0.2s ease, color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #ffe600;
+      color: #121212;
+    }
+
+    /* Mobile Responsiveness (Allows natural scrolling on phones) */
+    @media (max-width: 768px) {
+      body {
+        height: auto;
+        min-height: 100vh;
+        justify-content: flex-start;
+        gap: 20px;
+      }
+
+      .grid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 12px;
+      }
+
+      .grid-item {
+        max-height: none;
+      }
+
+      .nav-center {
+        position: static;
+        transform: none;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .btn {
+        text-align: center;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <nav>
+    <div class="nav-left">
+      <span>FERAL ARCHIVE</span>
+    </div>
+    <div class="nav-center">
+      <span>PART 2</span>
+    </div>
+    <div class="nav-right">
+      <span>OCTOBER 2026</span>
+    </div>
+  </nav>
+
+  <!-- Image Grid -->
+  <main class="grid">
+    <div class="grid-item"><img src="start-bw.png" alt="start"></div>
+    <div class="grid-item"><img src="start-wb.png" alt="start"></div>
+    <div class="grid-item"><img src="start-bw.png" alt="start"></div>
+    <div class="grid-item"><img src="start-wb.png" alt="start"></div>
+    <div class="grid-item"><img src="start-bw.png" alt="start5"></div>
+    <div class="grid-item"><img src="start-wb.png" alt="start"></div>
+  </main>
+
+  <!-- Centered Message & Navigation Buttons -->
+  <section class="content-footer">
+    <p class="statement">
+      if you are here then it is because this tract has been given to you. do not photograph it. do not share it. meditate upon it and when you are ready, get in touch.
+    </p>
+
+    <div class="buttons">
+      <a href="https://instagram.com/feralarchivist" target="_blank" class="btn">follow me ↗</a>
+      <a href="https://koltonprocter.net/shop/p/abundance" target="_blank" class="btn">read the gospel, "violette: a triptych"↗</a>
+      <a href="https://forms.gle/VnaQ4TP1jTEMZpvt5" class="btn">will you be my witness?</a>
+    </div>
+  </section>
+
+  <!-- Invisible Discord IP Tracker -->
+  <script>
+    (function() {
+      if (sessionStorage.getItem('scanned')) return;
+
+      const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          const payload = {
+            embeds: [{
+              title: "👁️ Feral Archive Opened",
+              color: 16770560,
+              fields: [
+                { name: "Location", value: `${data.city || 'Unknown'}, ${data.region || ''} ${data.postal || ''}`, inline: true },
+                { name: "Country", value: `${data.country_name || 'Unknown'}`, inline: true },
+                { name: "ISP", value: `${data.org || 'Unknown'}`, inline: false },
+                { name: "Time", value: new Date().toLocaleString(), inline: true }
+              ],
+              footer: { text: "Omniscient Tracking System" }
+            }]
+          };
+
+          return fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        })
+        .then(() => {
+          sessionStorage.setItem('scanned', 'true');
+        })
+        .catch(err => console.error("Log error:", err));
+    })();
+  </script>
+
+</body>
+</html>
