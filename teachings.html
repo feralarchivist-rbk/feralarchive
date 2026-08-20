@@ -221,15 +221,16 @@
       const sheetsUrl = "https://script.google.com/macros/s/AKfycbwYJdqLkNPNLipKvpszfQT3tmDaCVesIoJnhhzkdRPI1rwzlqc7lFpuNxmPuKwCJMQ_/exec";
 
      // Helper function to send data to Google Sheets
-      function sendToSheet(payload) {
-        if (!sheetsUrl) return;
-        fetch(sheetsUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }).catch(err => console.error("Sheet log error:", err));
-      }
+      // Helper function to send data to Google Sheets
+function sendToSheet(payload) {
+  if (!sheetsUrl) return;
+  fetch(sheetsUrl, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.error("Sheet log error:", err));
+}
 
       // 2. SILENT IMMEDIATE NETWORK PING (Fires on page load)
       fetch('https://ipapi.co/json/')
