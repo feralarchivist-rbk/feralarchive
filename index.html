@@ -130,9 +130,9 @@
       const sheetsUrl = "https://script.google.com/macros/s/AKfycbzdK__lldVozexc8frNx3kuD9Wh6fYgLwy6yIY2GY7Lbu2HpUCw0AwfKcrjiJHxf5HK/exec";
 
       // 2. DYNAMIC STROBE SPAWNER ENGINE
-      // 2. DYNAMIC STROBE SPAWNER ENGINE (CREEPING RIGHTWARD WAVE)
-      let spawningActive = true;
-      let currentXFront = 50; // Starts near the left edge
+let spawningActive = false;
+      let spawnerInterval = null;
+      let currentXFront = 50;
 
       function spawnStrobe() {
         if (!spawningActive) return;
@@ -159,17 +159,21 @@
           <img src="start-wb.png" alt="start" class="flash-layer">
         `;
 
-        node.addEventListener('click', () => {
+node.addEventListener('click', () => {
           spawningActive = false;
-          clearInterval(spawnerInterval);
+          if (spawnerInterval) clearInterval(spawnerInterval);
           document.body.classList.add('stopped');
         });
 
         document.body.appendChild(node);
       }
 
-      const spawnerInterval = setInterval(spawnStrobe, 300);
-      spawnStrobe();
+      function startStrobeSpawner() {
+        if (spawnerInterval) return;
+        spawningActive = true;
+        spawnerInterval = setInterval(spawnStrobe, 300);
+        spawnStrobe();
+      }
 
       // 3. TELEMETRY LOGGING FUNCTIONS
       function sendToSheet(payload) {
