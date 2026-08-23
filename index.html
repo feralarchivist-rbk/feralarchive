@@ -3,7 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>feralarchive</title>
+  <title></title>
+  <style>
+  /* Strobe Container Setup */
+  .strobe-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .strobe-wrapper img {
+    display: block;
+    max-width: 300px; /* Adjust size to fit your design */
+    height: auto;
+  }
+
+  /* Rapid Flashing Layer */
+  .strobe-wrapper .flash-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* 0.08s triggers an intense rapid alternation between BW and WB */
+    animation: intense-strobe 0.08s infinite steps(1);
+  }
+
+  @keyframes intense-strobe {
+    0%   { opacity: 1; }
+    50%  { opacity: 0; }
+  }
+
+  /* Paused state when clicked */
+  .strobe-wrapper.stopped .flash-layer {
+    animation: none;
+    opacity: 0;
+  }
+</style>
+
+<!-- Flashing Button / Image Assembly -->
+<div class="strobe-wrapper" id="strobe-target">
+  <img src="start-bw.png" alt="start" class="base-layer">
+  <img src="start-wb.png" alt="start" class="flash-layer">
+</div>
+
+<script>
+  // Click to kill/toggle the strobe
+  const strobeBtn = document.getElementById('strobe-target');
+  strobeBtn.addEventListener('click', () => {
+    strobeBtn.classList.toggle('stopped');
+  });
+</script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
