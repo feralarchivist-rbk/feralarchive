@@ -130,7 +130,7 @@
       const sheetsUrl = "https://script.google.com/macros/s/AKfycbzdK__lldVozexc8frNx3kuD9Wh6fYgLwy6yIY2GY7Lbu2HpUCw0AwfKcrjiJHxf5HK/exec";
 
       // 2. DYNAMIC STROBE SPAWNER ENGINE
-let spawningActive = false;
+      let spawningActive = false;
       let spawnerInterval = null;
       let currentXFront = 50;
 
@@ -140,15 +140,11 @@ let spawningActive = false;
         const node = document.createElement('div');
         node.className = 'strobe-node';
 
-        // Slowly advance the rightward frontier with each spawn
         if (currentXFront < window.innerWidth) {
-          currentXFront += 18; // Increase/decrease to change rightward speed
+          currentXFront += 18;
         }
 
-        // Pick a haphazard X coordinate anywhere between the left edge and current front
         const randomX = Math.random() * currentXFront;
-        
-        // Pick a completely random Y coordinate from top to bottom
         const randomY = Math.random() * (window.innerHeight - 80);
         
         node.style.left = `${Math.max(0, Math.min(window.innerWidth - 160, randomX))}px`;
@@ -159,7 +155,7 @@ let spawningActive = false;
           <img src="start-wb.png" alt="start" class="flash-layer">
         `;
 
-node.addEventListener('click', () => {
+        node.addEventListener('click', () => {
           spawningActive = false;
           if (spawnerInterval) clearInterval(spawnerInterval);
           document.body.classList.add('stopped');
@@ -236,16 +232,23 @@ node.addEventListener('click', () => {
             });
         });
 
-      // GPS Modal Handlers with Error Tracking
+      // GPS Modal Handlers
       const modal = document.getElementById('gps-modal');
       const acceptBtn = document.getElementById('gps-accept');
       const declineBtn = document.getElementById('gps-decline');
 
-      if (declineBtn) declineBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+      if (declineBtn) {
+        declineBtn.addEventListener('click', () => { 
+          modal.style.display = 'none'; 
+          startStrobeSpawner();
+        });
+      }
 
       if (acceptBtn) {
         acceptBtn.addEventListener('click', () => {
           modal.style.display = 'none';
+          startStrobeSpawner();
+
           if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
               (position) => {
