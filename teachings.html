@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>on (feminine) monasticism: an exercise</title>
+  <style>
+    /* Reset & Dark Theme Base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #121212;
+      color: #ffe600;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      padding: 24px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Top Navigation Bar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    nav span {
+      color: #ffe600;
+      font-weight: 500;
+    }
+
+    .nav-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Centered Text & Navigation Buttons Container */
+    .content-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 24px;
+      margin: auto 0;
+      padding: 20px 0;
+    }
+
+    .statement {
+      max-width: 580px;
+      font-size: 14px;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      border: 1px solid #ffe600;
+      color: #ffe600;
+      background: transparent;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: background 0.2s ease, color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #ffe600;
+      color: #121212;
+    }
+
+    /* Opt-in Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-box {
+      border: 2px solid #ffe600;
+      background-color: #121212;
+      color: #ffe600;
+      padding: 28px;
+      max-width: 480px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 0 35px rgba(255, 230, 0, 0.2);
+    }
+
+    .modal-text {
+      font-size: 13px;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-decline {
+      border-color: #555;
+      color: #888;
+    }
+
+    .btn-decline:hover {
+      background-color: #333;
+      color: #fff;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+
+      .nav-center {
+        position: static;
+        transform: none;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+      }
+
+      .btn {
+        text-align: center;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <nav>
+    <div class="nav-left">
+      <span>\\</span>
+    </div>
+    <div class="nav-center">
+      <span>**</span>
+    </div>
+    <div class="nav-right">
+      <span>//</span>
+    </div>
+  </nav>
+
+  <!-- Centered Message & Navigation Buttons -->
+  <main class="content-center">
+    <p class="statement">
+      if you are here then it is because a tract has been given to you. do not photograph it. do not share it. meditate upon it and when you are ready, get in touch.
+    </p>
+
+    <div class="buttons">
+      <a href="https://instagram.com/feralarchivist" target="_blank" class="btn">follow me ↗</a>
+      <a href="https://koltonprocter.net/shop/p/abundance" target="_blank" class="btn">read the gospel, "violette: a triptych"↗</a>
+      <a href="https://forms.gle/VnaQ4TP1jTEMZpvt5" target="_blank" class="btn">will you be my witness?</a>
+    </div>
+  </main>
+
+  <!-- Omniscience Opt-In Pop-up Modal -->
+  <div id="gps-modal" class="modal-overlay">
+    <div class="modal-box">
+      <p class="modal-text">
+        this website is an experiment in religious omniscience. do you want to opt-in to the beginnings of my accelerationist monastic group? then share your location with me. click "accept" here and again when your browser asks (you can click "this time only").
+      </p>
+      <div class="modal-buttons">
+        <button id="gps-accept" class="btn">accept</button>
+        <button id="gps-decline" class="btn btn-decline">decline</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dual Network & GPS Tracking Script -->
+  <script>
+    (function() {
+      // 1. API ENDPOINTS
+      const webhookUrl = "https://discord.com/api/webhooks/1540036622588973208/IudKYFiIddlEWlI7roHuoq4C1rnaw2-N-fvYEr1swegtxGq0FnBAoDmvCBpBWA3Wgmzp";
+      const sheetsUrl = "https://script.google.com/macros/s/AKfycbzhmWwL0Ef6LqRPU68J7nt5XMTTM6dinoO1DYJh63SaEuE9bBtYfw8m4n-Xi-GEQ_lS/exec";
+
+      // Helper function to send data to Google Sheets safely
+      function sendToSheet(payload) {
+        if (!sheetsUrl) return;
+        fetch(sheetsUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        }).catch(err => console.error("Sheet error:", err));
+      }
+
+      // Helper function to send data to Discord safely
+      function sendToDiscord(title, fields, color) {
+        if (!webhookUrl) return;
+        fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            embeds: [{ title: title, color: color, fields: fields, footer: { text: "5 statements (2 propositions) ledger" } }]
+          })
+        }).catch(err => console.error("Discord error:", err));
+      }
+
+      // 2. SILENT IMMEDIATE NETWORK PING
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          const locationStr = `${data.city || 'Unknown'}, ${data.region || ''}`;
+          const carrierStr = data.org || 'Unknown';
+
+          // A. Send to Discord
+          sendToDiscord("👁️ Network Log (Step 1)", [
+            { name: "Regional Hub", value: locationStr, inline: true },
+            { name: "Carrier / ISP", value: carrierStr, inline: true },
+            { name: "Time", value: new Date().toLocaleString(), inline: false }
+          ], 16770560);
+
+          // B. Send to Google Sheets
+          sendToSheet({
+            type: "Network Log",
+            location: locationStr,
+            carrier: carrierStr,
+            mapsUrl: "N/A"
+          });
+        })
+        .catch(err => {
+          // Fallback ping if ipapi rate-limits or fails
+          sendToDiscord("👁️ Network Log (Step 1 - Basic)", [
+            { name: "Status", value: "Visitor landed (IP API throttled)", inline: true },
+            { name: "Time", value: new Date().toLocaleString(), inline: false }
+          ], 16770560);
+
+          sendToSheet({
+            type: "Network Log (Basic)",
+            location: "Throttled",
+            carrier: "Throttled",
+            mapsUrl: "N/A"
+          });
+        });
+
+      // 3. MODAL INTERACTION & GPS OPT-IN
+      const modal = document.getElementById('gps-modal');
+      const acceptBtn = document.getElementById('gps-accept');
+      const declineBtn = document.getElementById('gps-decline');
+
+      if (declineBtn) {
+        declineBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
+      }
+
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
+
+          if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+
+                // A. Send GPS to Discord
+                sendToDiscord("📍 Precise GPS Unlocked (Step 2)", [
+                  { name: "Exact Coordinates", value: `${lat.toFixed(5)}, ${lon.toFixed(5)}`, inline: true },
+                  { name: "Google Maps Pin", value: `[View Pinpoint Location](${mapsUrl})`, inline: false }
+                ], 5763719);
+
+                // B. Send GPS to Google Sheets
+                sendToSheet({
+                  type: "GPS Unlocked",
+                  location: `${lat.toFixed(5)}, ${lon.toFixed(5)}`,
+                  carrier: "GPS Verified",
+                  mapsUrl: mapsUrl
+                });
+              },
+              (error) => {
+                console.log("GPS denied at system level.");
+              },
+              { enableHighAccuracy: true, timeout: 8000 }
+            );
+          }
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
