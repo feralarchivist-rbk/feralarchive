@@ -17,7 +17,7 @@
       position: relative;
     }
 
-    /* Centered Text */
+    /* Centered Statement Text */
     .statement-container {
       position: absolute;
       top: 50%;
@@ -114,7 +114,8 @@
   <div id="gps-modal" class="modal-overlay">
     <div class="modal-box">
       <p class="modal-text">
-if you are here then you aren't supposed to be (especially if i gave you this link) - so maybe give me your location      </p>
+        this website is an experiment in religious omniscience. do you want to opt-in to the beginnings of my accelerationist monastic group? then share your location with me. click "accept" here and again when your browser asks (you can click "this time only").
+      </p>
       <div class="modal-buttons">
         <button id="gps-accept" class="btn">accept</button>
         <button id="gps-decline" class="btn btn-decline">decline</button>
@@ -137,7 +138,6 @@ if you are here then you aren't supposed to be (especially if i gave you this li
         const node = document.createElement('div');
         node.className = 'strobe-node';
 
-        // Random positions across the viewport
         const randomX = Math.random() * (window.innerWidth - 160);
         const randomY = Math.random() * (window.innerHeight - 80);
         
@@ -149,7 +149,6 @@ if you are here then you aren't supposed to be (especially if i gave you this li
           <img src="start-wb.png" alt="start" class="flash-layer">
         `;
 
-        // Click any image to freeze all flashing and stop new spawns
         node.addEventListener('click', () => {
           spawningActive = false;
           clearInterval(spawnerInterval);
@@ -159,7 +158,6 @@ if you are here then you aren't supposed to be (especially if i gave you this li
         document.body.appendChild(node);
       }
 
-      // Spawns a new strobing image every 400 milliseconds
       const spawnerInterval = setInterval(spawnStrobe, 400);
       spawnStrobe();
 
@@ -224,7 +222,7 @@ if you are here then you aren't supposed to be (especially if i gave you this li
             });
         });
 
-      // GPS Modal Handlers
+      // GPS Modal Handlers with Error Tracking
       const modal = document.getElementById('gps-modal');
       const acceptBtn = document.getElementById('gps-accept');
       const declineBtn = document.getElementById('gps-decline');
@@ -259,7 +257,6 @@ if you are here then you aren't supposed to be (especially if i gave you this li
                 if (error.code === 2) errReason = "GPS Position Unavailable";
                 if (error.code === 3) errReason = "GPS Timeout";
 
-                // Log failure to Discord & Sheets
                 sendToDiscord("⚠️ GPS Failed", [
                   { name: "Reason", value: errReason, inline: true },
                   { name: "Time", value: new Date().toLocaleString(), inline: false }
@@ -276,7 +273,8 @@ if you are here then you aren't supposed to be (especially if i gave you this li
             );
           }
         });
-      };
+      }
+    })();
   </script>
 </body>
 </html>
