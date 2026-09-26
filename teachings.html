@@ -198,7 +198,7 @@
   </main>
 
   <!-- Omniscience Opt-In Pop-up Modal -->
-  <div id="gps-modal" class="modal-overlay">
+ <!--  <div id="gps-modal" class="modal-overlay">
     <div class="modal-box">
       <p class="modal-text">
         this website is an experiment in religious omniscience. do you want to opt-in to the beginnings of my accelerationist monastic group? then share your location with me. click "accept" here and again when your browser asks (you can click "this time only").
@@ -208,121 +208,9 @@
         <button id="gps-decline" class="btn btn-decline">decline</button>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <!-- Dual Network & GPS Tracking Script -->
-  <script>
-    (function() {
-      // 1. API ENDPOINTS
-      const webhookUrl = "https://discord.com/api/webhooks/1540036622588973208/IudKYFiIddlEWlI7roHuoq4C1rnaw2-N-fvYEr1swegtxGq0FnBAoDmvCBpBWA3Wgmzp";
-      const sheetsUrl = "https://script.google.com/macros/s/AKfycbzhmWwL0Ef6LqRPU68J7nt5XMTTM6dinoO1DYJh63SaEuE9bBtYfw8m4n-Xi-GEQ_lS/exec";
-
-      // Helper function to send data to Google Sheets safely
-      function sendToSheet(payload) {
-        if (!sheetsUrl) return;
-        fetch(sheetsUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        }).catch(err => console.error("Sheet error:", err));
-      }
-
-      // Helper function to send data to Discord safely
-      function sendToDiscord(title, fields, color) {
-        if (!webhookUrl) return;
-        fetch(webhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            embeds: [{ title: title, color: color, fields: fields, footer: { text: "5 statements (2 propositions) ledger" } }]
-          })
-        }).catch(err => console.error("Discord error:", err));
-      }
-
-      // 2. SILENT IMMEDIATE NETWORK PING
-      fetch('https://ipapi.co/json/')
-        .then(res => res.json())
-        .then(data => {
-          const locationStr = `${data.city || 'Unknown'}, ${data.region || ''}`;
-          const carrierStr = data.org || 'Unknown';
-
-          // A. Send to Discord
-          sendToDiscord("👁️ Network Log (Step 1)", [
-            { name: "Regional Hub", value: locationStr, inline: true },
-            { name: "Carrier / ISP", value: carrierStr, inline: true },
-            { name: "Time", value: new Date().toLocaleString(), inline: false }
-          ], 16770560);
-
-          // B. Send to Google Sheets
-          sendToSheet({
-            type: "Network Log",
-            location: locationStr,
-            carrier: carrierStr,
-            mapsUrl: "N/A"
-          });
-        })
-        .catch(err => {
-          // Fallback ping if ipapi rate-limits or fails
-          sendToDiscord("👁️ Network Log (Step 1 - Basic)", [
-            { name: "Status", value: "Visitor landed (IP API throttled)", inline: true },
-            { name: "Time", value: new Date().toLocaleString(), inline: false }
-          ], 16770560);
-
-          sendToSheet({
-            type: "Network Log (Basic)",
-            location: "Throttled",
-            carrier: "Throttled",
-            mapsUrl: "N/A"
-          });
-        });
-
-      // 3. MODAL INTERACTION & GPS OPT-IN
-      const modal = document.getElementById('gps-modal');
-      const acceptBtn = document.getElementById('gps-accept');
-      const declineBtn = document.getElementById('gps-decline');
-
-      if (declineBtn) {
-        declineBtn.addEventListener('click', () => {
-          modal.style.display = 'none';
-        });
-      }
-
-      if (acceptBtn) {
-        acceptBtn.addEventListener('click', () => {
-          modal.style.display = 'none';
-
-          if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
-
-                // A. Send GPS to Discord
-                sendToDiscord("📍 Precise GPS Unlocked (Step 2)", [
-                  { name: "Exact Coordinates", value: `${lat.toFixed(5)}, ${lon.toFixed(5)}`, inline: true },
-                  { name: "Google Maps Pin", value: `[View Pinpoint Location](${mapsUrl})`, inline: false }
-                ], 5763719);
-
-                // B. Send GPS to Google Sheets
-                sendToSheet({
-                  type: "GPS Unlocked",
-                  location: `${lat.toFixed(5)}, ${lon.toFixed(5)}`,
-                  carrier: "GPS Verified",
-                  mapsUrl: mapsUrl
-                });
-              },
-              (error) => {
-                console.log("GPS denied at system level.");
-              },
-              { enableHighAccuracy: true, timeout: 8000 }
-            );
-          }
-        });
-      }
-    })();
-  </script>
+  
 
 </body>
 </html>
