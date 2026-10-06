@@ -5,8 +5,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>many happy returns - or, ad me'ah ke-essrim shana</title>
   <body>
-<audio autoplay loop>
-  <source src="manyhappyreturnsaudio/01 technology of silence preamble - 2026-10-05, 2.53 PM.mp3" type="audio/mpeg">
 
-  </body>
+    <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #121212;
+      color: #ffe600;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 13px;
+      min-height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Centered Statement Text */
+    .statement-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+      pointer-events: none;
+      padding: 20px;
+    }
+
+    .statement {
+      max-width: 580px;
+      font-size: 14px;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.92);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000; padding: 20px;
+    }
+    .modal-box {
+      border: 2px solid #ffe600;
+      background-color: #121212;
+      color: #ffe600;
+      padding: 28px;
+      max-width: 480px;
+      text-align: center;
+      display: flex; flex-direction: column; gap: 20px;
+      box-shadow: 0 0 35px rgba(255, 230, 0, 0.2);
+    }
+    .modal-text { font-size: 13px; line-height: 1.6; text-transform: lowercase; }
+    .modal-buttons { display: flex; gap: 12px; justify-content: center; }
+    .btn {
+      border: 1px solid #ffe600; color: #ffe600; background: transparent;
+      padding: 10px 20px; text-decoration: none; font-size: 12px;
+      cursor: pointer; transition: background 0.2s ease, color 0.2s ease;
+    }
+    .btn:hover { background-color: #ffe600; color: #121212; }
+    .btn-decline { border-color: #555; color: #888; }
+    .btn-decline:hover { background-color: #333; color: #fff; }
+  </style>
+</head>
+<body>
+
+  <div class="statement-container">
+    <p class="statement">
+      נ ב ו
+        many happy returns - or, ad me'ah ke-essrim shana <3
+
+     <audio src="manyhappyreturnsaudio/01 technology of silence preamble - 2026-10-05, 2.53 PM.mp3" type="audio/mpeg"> </audio>
+    </p>
+  </div>
+
+
+</body>
+</html>
+
 </head>
