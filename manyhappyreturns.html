@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>many happy returns - or, ad me'ah ke-essrim shana</title>
-
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
       background-color: #121212;
       color: #ffe600;
@@ -14,78 +14,111 @@
       font-size: 13px;
       min-height: 100vh;
       width: 100vw;
-      overflow-y: auto; /* Allows scrolling if player list exceeds screen height */
-      position: relative;
-    }
-
-    /* Centered Statement Text */
-    .statement-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      z-index: 1;
-      pointer-events: auto; /* FIXED: Enables clicks on audio controls */
-      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      justify-content: flex-start;
+      padding: 60px 20px;
+      overflow-y: auto;
     }
 
-    .statement {
+    .header {
+      text-align: center;
       max-width: 580px;
       font-size: 14px;
       line-height: 1.6;
       letter-spacing: 0.02em;
       text-transform: lowercase;
-      margin-bottom: 10px;
+      margin-bottom: 35px;
+    }
+
+    .tracklist {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .track-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .track-label {
+      font-size: 12px;
+      margin-bottom: 6px;
+      opacity: 0.85;
+      text-transform: lowercase;
+      letter-spacing: 0.03em;
     }
 
     audio {
-      margin: 6px 0;
-      width: 300px;
+      width: 100%;
     }
   </style>
 </head>
 <body>
 
-  <div class="statement-container">
-    <div class="statement">
-      <p>נבו</p>
-      <p>many happy returns - or, ad me'ah ke-essrim shana &lt;3</p>
+  <div class="header">
+    <p>נבו</p>
+    <p>many happy returns - or, ad me'ah ke-essrim shana &lt;3</p>
+  </div>
+
+  <div class="tracklist">
+
+    <div class="track-item">
+      <span class="track-label">01 technology of silence preamble</span>
+      <audio controls src="manyhappyreturnsaudio/01 technology of silence preamble - 2026-10-05, 2.53 PM.mp3"></audio>
     </div>
 
-    <!-- Track 01 -->
-    <audio controls src="manyhappyreturnsaudio/01 technology of silence preamble - 2026-10-05, 2.53 PM.mp3"></audio>
+    <div class="track-item">
+      <span class="track-label">02 technology of silence</span>
+      <audio controls src="manyhappyreturnsaudio/02 technology of silence - 2026-10-05, 2.53 PM.mp3"></audio>
+    </div>
 
-    <!-- Track 02 -->
-    <audio controls src="manyhappyreturnsaudio/02 technology of silence - 2026-10-05, 2.53 PM.mp3"></audio>
+    <div class="track-item">
+      <span class="track-label">03 thunder perfect mind preamble</span>
+      <audio controls src="manyhappyreturnsaudio/03 thunder perfect mind preamble - 2026-10-05, 7.39 PM.mp3"></audio>
+    </div>
 
-    <!-- Track 03 -->
-    <audio controls src="manyhappyreturnsaudio/03 thunder perfect mind preamble - 2026-10-05, 7.39 PM.mp3"></audio>
+    <div class="track-item">
+      <span class="track-label">04 thunder perfect mind</span>
+      <audio controls src="manyhappyreturnsaudio/04 thunder perfect mind - 2026-10-05, 7.39 PM.mp3"></audio>
+    </div>
 
-    <!-- Track 04 -->
-    <audio controls src="manyhappyreturnsaudio/04 thunder perfect mind - 2026-10-05, 7.39 PM.mp3"></audio>
+    <div class="track-item">
+      <span class="track-label">05 le petit prince preamble</span>
+      <audio controls src="manyhappyreturnsaudio/05 le petit prince preamble - 2026-10-05, 7.40 PM.mp3"></audio>
+    </div>
 
-    <!-- Track 05 -->
-    <audio controls src="manyhappyreturnsaudio/05 le petit prince preamble - 2026-10-05, 7.40 PM.mp3"></audio>
+    <div class="track-item">
+      <span class="track-label">06 le petit prince</span>
+      <audio controls src="manyhappyreturnsaudio/06 le petit prince - 2026-10-05, 7.40 PM.mp3"></audio>
+    </div>
 
-    <!-- Track 06 -->
-    <audio controls src="manyhappyreturnsaudio/06 le petit prince - 2026-10-05, 7.40 PM.mp3"></audio>
+    <div class="track-item">
+      <span class="track-label">07 a surprise preamble</span>
+      <audio controls src="manyhappyreturnsaudio/07 a surprise - preamble - 2026-10-05, 7.41 PM.mp3"></audio>
+    </div>
 
-    <!-- Track 07 -->
-    <audio controls src="manyhappyreturnsaudio/07 a surprise - preamble - 2026-10-05, 7.41 PM.mp3"></audio>
+    <div class="track-item">
+      <span class="track-label">08 a surprise</span>
+      <audio controls src="manyhappyreturnsaudio/08 a surprise - 2026-10-05, 7.41 PM.mp3"></audio>
+    </div>
 
-    <!-- Track 08 -->
-    <audio controls src="manyhappyreturnsaudio/08 a surprise - 2026-10-05, 7.41 PM.mp3"></audio>
+    <div class="track-item">
+      <span class="track-label">09 i am a cat soseki preamble</span>
+      <audio controls src="manyhappyreturnsaudio/09 i am a cat soseki preamble - 2026-10-05, 7.41 PM.mp3"></audio>
+    </div>
 
-    <!-- Track 09 -->
-    <audio controls src="manyhappyreturnsaudio/09 i am a cat soseki preamble - 2026-10-05, 7.41 PM.mp3"></audio>
-
-    <!-- Track 10 -->
-    <audio controls src="manyhappyreturnsaudio/10 i am a cat soseki - 2026-10-05, 7.42 PM.mp3"></audio>
+    <div class="track-item">
+      <span class="track-label">10 i am a cat soseki</span>
+      <audio controls src="manyhappyreturnsaudio/10 i am a cat soseki - 2026-10-05, 7.42 PM.mp3"></audio>
+    </div>
 
   </div>
 
