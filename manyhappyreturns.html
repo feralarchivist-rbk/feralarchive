@@ -58,6 +58,71 @@
     audio {
       width: 100%;
     }
+
+    /* --- ephemeral button --- */
+    .ephemera {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      width: 340px;
+      max-width: calc(100% - 40px);
+      transform: translate(-50%, 8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.8s ease, transform 1.8s ease;
+      text-align: center;
+      text-transform: lowercase;
+      letter-spacing: 0.03em;
+      z-index: 10;
+    }
+
+    .ephemera.visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+      pointer-events: auto;
+    }
+
+    .ephemera button {
+      background: #121212;
+      color: #ffe600;
+      border: 1px solid #ffe600;
+      font: inherit;
+      font-size: 13px;
+      letter-spacing: inherit;
+      text-transform: lowercase;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .ephemera button:hover,
+    .ephemera button:focus-visible {
+      background: #ffe600;
+      color: #121212;
+      outline: none;
+    }
+
+    .ephemera-main {
+      width: 100%;
+      padding: 12px 18px;
+      line-height: 1.5;
+    }
+
+    .ephemera-choices {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .ephemera-choices.visible {
+      opacity: 1;
+    }
+
+    .ephemera-choices button {
+      padding: 6px 16px;
+    }
   </style>
 </head>
 <body>
@@ -129,6 +194,77 @@
     </div>
 
   </div>
+
+  <div class="ephemera" id="ephemera" hidden>
+    <button class="ephemera-main" id="ephemera-main" type="button">the beauty of voice is its ephemerality</button>
+    <div class="ephemera-choices" id="ephemera-choices" hidden>
+      <button type="button" data-choice="i don't">i don't</button>
+      <button type="button" data-choice="understand">understand</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var KEY = 'manyhappyreturns-ephemera-v2';
+
+      // how long into a visit before it appears (milliseconds)
+      var MIN_DELAY = 10000;  // 10 seconds
+      var MAX_DELAY = 75000;  // 75 seconds
+
+      // chance of appearing on each visit after the first time it's been seen
+      var REPEAT_CHANCE = 0.5;
+
+      var state = { visits: 0, seen: false, choices: [] };
+      try {
+        var saved = JSON.parse(localStorage.getItem(KEY));
+        if (saved) state = saved;
+      } catch (e) {}
+
+      function save() {
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+      }
+
+      state.visits = (state.visits || 0) + 1;
+      save();
+
+      // always shows until it has actually appeared once
+      // (if they leave before the fade-in, it's still guaranteed next time),
+      // then 50/50 on every visit after that
+      var show = !state.seen || Math.random() < REPEAT_CHANCE;
+
+      if (!show) return;
+
+      var box = document.getElementById('ephemera');
+      var main = document.getElementById('ephemera-main');
+      var choices = document.getElementById('ephemera-choices');
+
+      var delay = MIN_DELAY + Math.random() * (MAX_DELAY - MIN_DELAY);
+
+      setTimeout(function () {
+        box.hidden = false;
+        void box.offsetWidth; // let the fade-in run
+        box.classList.add('visible');
+        state.seen = true;
+        save();
+      }, delay);
+
+      main.addEventListener('click', function () {
+        choices.hidden = false;
+        void choices.offsetWidth;
+        choices.classList.add('visible');
+      });
+
+      choices.addEventListener('click', function (e) {
+        var btn = e.target.closest('button');
+        if (!btn) return;
+        state.choices = state.choices || [];
+        state.choices.push(btn.getAttribute('data-choice'));
+        save();
+        box.classList.remove('visible');
+        setTimeout(function () { box.hidden = true; }, 1800);
+      });
+    })();
+  </script>
 
 </body>
 </html>
